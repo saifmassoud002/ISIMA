@@ -10,16 +10,24 @@ import {
 } from "react-native";
 import products from "../products";
 import { useRoute } from "@react-navigation/native";
+import { useDispatch, useSelector } from "react-redux";
+import { purchasesadd } from "../../store/productsSlice";
 
 const ProductDetailsScreen = () => {
   const route = useRoute();
   const { productId } = route.params; // Get productId passed from ProductsScreen
-  const product = products.find((p) => p.id === productId); //* Find the product by ID
+  const product = products.find((p) => p.id === productId); // Find the product by ID
+  const dispatch = useDispatch();
+
+  // Fetch purchases state (if needed)
+  const purchases = useSelector((state) => state.purchases);
 
   const { width } = useWindowDimensions();
 
-  const addToCart = () => {
-    console.warn("Add to cart", product.name);
+  // Add product to purchases
+  const addtopurchases = () => {
+    dispatch(purchasesadd(product));
+    console.log("item add seccess") // Dispatch the action with the product as payload
   };
 
   return (
@@ -41,10 +49,18 @@ const ProductDetailsScreen = () => {
           <Text style={styles.description}>{product.description}</Text>
         </View>
       </ScrollView>
+
       {/* Add to Cart Button */}
-      <Pressable onPress={addToCart} style={styles.button}>
+      <Pressable onPress={addtopurchases} style={styles.button}>
         <Text style={styles.buttonText}>Add to Cart</Text>
       </Pressable>
+
+
+
+
+      <View>
+
+      </View>
     </View>
   );
 };
@@ -62,9 +78,10 @@ const styles = StyleSheet.create({
   },
   description: {
     marginVertical: 10,
-    fontSize: 14, // Increased font size for better readability
+    fontSize: 14,
     lineHeight: 22,
     fontWeight: "300",
+    paddingBottom:"100",
   },
   button: {
     position: "absolute",

@@ -1,25 +1,24 @@
-import { StyleSheet, Image, FlatList, Pressable } from "react-native";
-import products from "../products"; 
 import { useNavigation } from "@react-navigation/native";
-
+import { StyleSheet, Image, FlatList, Pressable } from "react-native";
+import products from "../products";
 const ProductsScreen = () => {
-  const navigation = useNavigation();
+  const navigation=useNavigation();
 
   return (
     <FlatList
-      data={products} // Correctly passing product array
+      data={products} // Pass products from Redux store
       renderItem={({ item }) => (
         <Pressable
           onPress={() =>
-            navigation.navigate("Product Detail", { productId: item.id }) // Passing product ID as a param
+            navigation.navigate("Product Detail", { productId: item.id })// Pass product ID as a parameter
           }
-          style={styles .itemContainer}
+          style={styles.itemContainer}
         >
           <Image source={{ uri: item.image }} style={styles.image} />
         </Pressable>
       )}
       numColumns={2}
-      keyExtractor={(item) => item.id.toString()} // Ensuring unique keys
+      keyExtractor={(item) => item.id.toString()} // Ensure each item has a unique key
     />
   );
 };
