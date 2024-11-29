@@ -10,7 +10,8 @@ const initialState = {
     reducers: {
       purchasesadd(state, action) {
         const existingProduct = state.products.find(
-          (product) => product.id === action.payload.id
+          (product) => product.id === action.payload.id,
+          (product) => product.total +=1
         );
   
         if (existingProduct) {
@@ -34,9 +35,10 @@ const initialState = {
           }
         }
       },
+     
     },
   });
   
-  export const { purchasesadd, purchasesreduce } = createpurchases.actions;
+  export const { purchasesadd, purchasesreduce,purchasestotal } = createpurchases.actions;
   export default createpurchases.reducer;
   

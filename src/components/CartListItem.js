@@ -1,62 +1,49 @@
 import React from "react";
-import { View, Text, StyleSheet, Image, FlatList } from "react-native";
+import { View, Text, StyleSheet, Image } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { purchasesadd, purchasesreduce } from "../store/productsSlice";
 
-const CartListItem = () => {
+const CartListItem = ({ cartItem }) => {
   const dispatch = useDispatch();
 
-  // Fetch purchases from the Redux store
-  const purchases = useSelector((state) => state.purchases.products);
-
-  // Increase quantity of a product
-  const increaseQuantity = (product) => {
-    dispatch(purchasesadd(product)); // Re-add the product to increase its quantity
+  // Functions to increase and decrease quantity
+  const increaseQuantity = () => {
+    dispatch(purchasesadd(cartItem)); // Add the same product
   };
 
-  // Decrease quantity of a product
-  const decreaseQuantity = (product) => {
-    dispatch(purchasesreduce(product.id)); // Use a reducer to decrease quantity
+  const decreaseQuantity = () => {
+    dispatch(purchasesreduce(cartItem.id)); // Decrease by product ID
   };
 
   return (
-    <FlatList
-      data={purchases}
-      keyExtractor={(item) => item.id.toString()}
-      renderItem={({ item}) => (
-        <View style={styles.container}>
-          <Image source={{ uri: item.image }} style={styles.image} />
+    <View style={styles.container}>
+      <Image source={{ uri: cartItem.image }} style={styles.image} />
 
-          <View style={styles.contentContainer}>
-            <Text style={styles.name}>{item.name}</Text>
-            <Text style={styles.size}>Size: 45</Text> {/* Add size if available */}
+      <View style={styles.contentContainer}>
+        <Text style={styles.name}>{cartItem.name}</Text>
+        <Text style={styles.size}>Size: {cartItem.size || "N/A"}</Text>
 
-            <View style={styles.footer}>
-              <Feather
-                onPress={() => decreaseQuantity(item)}
-                name="minus-circle"
-                size={24}
-                color="gray"
-              />
-              <Text style={styles.quantity}>{item.quantity || 1}</Text>
-              <Feather
-                onPress={() => increaseQuantity(item)}
-                name="plus-circle"
-                size={24}
-                color="gray"
-              />
-              <Text style={styles.itemTotal}>
-                ${item.price * (item.quantity || 1)}
-              </Text>
-            </View>
-          </View>
+        <View style={styles.footer}>
+          <Feather
+            onPress={decreaseQuantity}
+            name="minus-circle"
+            size={24}
+            color="gray"
+          />
+          <Text style={styles.quantity}>{cartItem.quantity}</Text>
+          <Feather
+            onPress={increaseQuantity}
+            name="plus-circle"
+            size={24}
+            color="gray"
+          />
+          <Text style={styles.itemTotal}>
+            ${cartItem.price * cartItem.quantity}
+          </Text>
         </View>
-      )}
-      ListEmptyComponent={
-        <Text style={styles.emptyText}>Your cart is empty! 🛒</Text>
-      }
-    />
+      </View>
+    </View>
   );
 };
 
@@ -65,43 +52,48 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingHorizontal: 20,
     flexDirection: "row",
+    backgroundColor: "#f9f9f9",
+    marginBottom: 10,
+    borderRadius: 8,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
   },
   contentContainer: {
     flex: 1,
     marginLeft: 10,
   },
   image: {
-    width: "40%",
-    aspectRatio: 1,
+    width: 80,
+    height: 80,
+    borderRadius: 8,
   },
   name: {
-    fontWeight: "500",
-    fontSize: 18,
+    fontWeight: "600",
+    fontSize: 16,
+    marginBottom: 4,
   },
   size: {
-    fontSize: 16,
+    fontSize: 14,
     color: "gray",
+    marginBottom: 8,
   },
   quantity: {
     marginHorizontal: 10,
     fontWeight: "bold",
+    fontSize: 16,
     color: "gray",
   },
   footer: {
-    marginTop: "auto",
     flexDirection: "row",
     alignItems: "center",
+    marginTop: "auto",
   },
   itemTotal: {
-    fontSize: 16,
     marginLeft: "auto",
-    fontWeight: "500",
-  },
-  emptyText: {
     fontSize: 16,
-    color: "gray",
-    textAlign: "center",
-    marginTop: 50,
+    fontWeight: "500",
   },
 });
 

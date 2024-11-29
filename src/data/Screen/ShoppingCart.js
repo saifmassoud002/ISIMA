@@ -1,31 +1,42 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { FlatList, Text, StyleSheet, View } from "react-native";
-import { useSelector } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import CartListItem from "../../components/CartListItem";
 import { memoizedPurchases } from "../../store/selectors";
-
-
+import Navigation from "../../navigation";
 
 const ShoppingCart = () => {
-  // Access purchases from the Redux store
-  
+  const [uniqueItems, setUniqueItems] = useState([]); // Store only unique items
+
+
+
+  // Fetch purchases from Redux store
   const purchases = useSelector(memoizedPurchases);
+
+  // Update uniqueItems when purchases change
+  useEffect(() => {
+    const filteredItems = purchases.reduce((acc, item) => {
+      const existingItem = acc.find((i) => i.id === item.id);
+      if (!existingItem) {
+        acc.push(item); // Add item if not already in the array
+      }
+      return acc;
+    }, []);
+    setUniqueItems(filteredItems);
+  }, [purchases]);
 
   return (
     <View style={styles.container}>
-      {purchases.length === 0 ? (
+      {uniqueItems.length === 0 ? (
         <Text style={styles.emptyText}>Your cart is empty! 🛒</Text>
       ) : (
-        //TODO sala7 il mochkla mta3 il t3awid bili inti tmapi par id 
-        //TODO tala3 il text string wen ili ytala3 fi 8alta minha 
-        //TODO sala7 il numero ili yatla3 ba7tha il karousa
-        
         <FlatList
-          data={purchases}
+          data={uniqueItems}
           renderItem={({ item }) => <CartListItem cartItem={item} />}
           keyExtractor={(item) => item.id.toString()}
         />
       )}
+      
     </View>
   );
 };
