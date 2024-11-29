@@ -3,22 +3,22 @@ import { FlatList, Text, StyleSheet, View } from "react-native";
 import { Provider, useSelector } from "react-redux";
 import CartListItem from "../../components/CartListItem";
 import { memoizedPurchases } from "../../store/selectors";
-import Navigation from "../../navigation";
+
 
 const ShoppingCart = () => {
-  const [uniqueItems, setUniqueItems] = useState([]); // Store only unique items
+  const [uniqueItems, setUniqueItems] = useState([]); //* Store only unique items
 
 
 
-  // Fetch purchases from Redux store
+  //* Fetch purchases from Redux store
   const purchases = useSelector(memoizedPurchases);
 
-  // Update uniqueItems when purchases change
+  //* Update uniqueItems when purchases change
   useEffect(() => {
     const filteredItems = purchases.reduce((acc, item) => {
       const existingItem = acc.find((i) => i.id === item.id);
       if (!existingItem) {
-        acc.push(item); // Add item if not already in the array
+        acc.push(item); //! Add item if not already in the array
       }
       return acc;
     }, []);

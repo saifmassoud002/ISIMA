@@ -1,9 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+
+//* Iisialisation of the first state
 const initialState = {
-    products: [], // Initialize as an empty array
+    products: [],
   };
   
+
+  //* adding the state
   const createpurchases = createSlice({
     name: "purchases",
     initialState,
@@ -38,6 +42,7 @@ const initialState = {
      
     },
   });
+  //TODO adding and exporting your action 
   
   export const { purchasesadd, purchasesreduce,purchasestotal } = createpurchases.actions;
   export default createpurchases.reducer;

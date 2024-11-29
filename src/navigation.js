@@ -5,13 +5,13 @@ import ShoppingCart from "../src/data/Screen/ShoppingCart";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Pressable, Text } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { useDispatch, useSelector } from "react-redux";
-import { createSelector } from "reselect";
-import products from "./data/products";
+import {  useSelector } from "react-redux";
+
 
 const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
+  //* Geting the total item using selector
   const itemTotal = useSelector((state) =>
     state.purchases.products.reduce((sum, product) => sum + product.quantity, 0)
   );

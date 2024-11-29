@@ -6,11 +6,11 @@ const ProductsScreen = () => {
 
   return (
     <FlatList
-      data={products} // Pass products from Redux store
+      data={products} //* Pass products from Redux store
       renderItem={({ item }) => (
         <Pressable
           onPress={() =>
-            navigation.navigate("Product Detail", { productId: item.id })// Pass product ID as a parameter
+            navigation.navigate("Product Detail", { productId: item.id })//* Pass product ID as a parameter
           }
           style={styles.itemContainer}
         >
@@ -18,7 +18,7 @@ const ProductsScreen = () => {
         </Pressable>
       )}
       numColumns={2}
-      keyExtractor={(item) => item.id.toString()} // Ensure each item has a unique key
+      keyExtractor={(item) => item.id.toString()} //* Ensure each item has a unique key
     />
   );
 };

@@ -15,19 +15,19 @@ import { purchasesadd } from "../../store/productsSlice";
 
 const ProductDetailsScreen = () => {
   const route = useRoute();
-  const { productId } = route.params; // Get productId passed from ProductsScreen
-  const product = products.find((p) => p.id === productId); // Find the product by ID
+  const { productId } = route.params; //* Get productId passed from ProductsScreen
+  const product = products.find((p) => p.id === productId); //* Find the product by ID
   const dispatch = useDispatch();
 
-  // Fetch purchases state (if needed)
+  //* Fetch purchases state (if needed)
   const purchases = useSelector((state) => state.purchases);
 
   const { width } = useWindowDimensions();
 
-  // Add product to purchases
+  //* Add product to purchases
   const addtopurchases = () => {
     dispatch(purchasesadd(product));
-    console.log("item add seccess") // Dispatch the action with the product as payload
+    console.log("item add seccess") //* Dispatch the action with the product as payload
   };
 
   return (
