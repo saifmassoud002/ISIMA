@@ -13,4 +13,4 @@ A modern e-commerce website a simple academic project for buying sneakers online
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/sneaker-shop.git
+git clone https://github.com/saifmassoud002/ISIMA.git
